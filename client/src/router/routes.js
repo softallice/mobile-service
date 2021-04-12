@@ -1,0 +1,85 @@
+const routes = [
+  {
+    path: "/",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      { path: "", name: "Home", component: () => import("pages/Index.vue") },
+      {
+        path: "/register",
+        name: "Register",
+        component: () => import("pages/Register.vue")
+      },
+      {
+        path: "/login",
+        name: "Login",
+        component: () => import("pages/login/Login.vue")
+      },
+      {
+        path: "/verify",
+        name: "Verify",
+        component: () => import("pages/Verify.vue")
+      },
+      {
+        path: "/account",
+        name: "Account",
+        component: () => import("pages/Account.vue"),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: "/forgot-password",
+        name: "ForgotPassword",
+        component: () => import("pages/ForgotPassword.vue")
+      },
+      {
+        path: "/reset-password",
+        name: "ResetPassword",
+        component: () => import("pages/ResetPassword.vue")
+      },
+      {
+        name: 'MobileHome',
+        path: '/',
+        icon: 'home',
+        component: () => import('pages/MobileIndex.vue')
+      },
+      {
+        name: 'About',
+        path: '/about',
+        icon: 'help',
+        component: () => import('pages/AboutPage.vue')
+      },
+      {
+        name: 'Credits',
+        path: '/credits',
+        icon: 'copyright',
+        component: () => import('pages/CreditsPage.vue')
+      },
+      {
+        name: 'Astronomy',
+        path: '/astronomy',
+        icon: 'nights_stay',
+        component: () => import('pages/AstronomyPage.vue')
+      }
+    ]
+  },
+  {
+    path: "/admin",
+    component: () => import("layouts/MainLayout.vue"),
+    children: [
+      {
+        path: "",
+        name: "AdminHome",
+        component: () => import("pages/admin/Index.vue"),
+        meta: { requiresAuth: true, requiresAdmin: true }
+      }
+    ]
+  },
+
+  // Always leave this as last one,
+  // but you can also remove it
+  {
+    path: "*",
+    component: () => import("pages/Error404.vue")
+  }
+];
+
+export default routes;
