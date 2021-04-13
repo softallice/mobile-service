@@ -13,7 +13,7 @@
         <h4 class="q-ma-none">Mobile Service App</h4>
       </q-toolbar-title>
     </q-toolbar>
-    <div class="q-pt-lg q-pb-md">
+    <!-- <div class="q-pt-lg q-pb-md">
       <q-input
         v-model="location"
         color="white"
@@ -62,7 +62,7 @@
           </div>
         </transition>
       </div>
-    </div>
+    </div> -->
   </q-header>
 </template>
 

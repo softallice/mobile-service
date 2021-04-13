@@ -20,7 +20,16 @@ export default {
   name: 'AppFooter',
   computed: {
     tabRoutes () {
-      return this.$router.options.routes[0].children.filter(route => route.name !== 'About' && route.name !== 'Credits')
+      return this.$router.options.routes[0].children.filter(
+        route => route.name !== 'Register' 
+              && route.name !== 'Consent'
+              && route.name !== 'Login' 
+              && route.name !== 'Verify'
+              && route.name !== 'Account' 
+              && route.name !== 'ForgotPassword'
+              && route.name !== 'MobileHome' 
+              && route.name !== 'ResetPassword' 
+        )
     }
   }
 }

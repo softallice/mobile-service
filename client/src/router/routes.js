@@ -3,11 +3,21 @@ const routes = [
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [
-      { path: "", name: "Home", component: () => import("pages/Index.vue") },
+      { 
+        path: "", 
+        icon: 'home', 
+        name: "Home", 
+        component: () => import("pages/Index.vue") 
+      },
       {
         path: "/register",
         name: "Register",
-        component: () => import("pages/Register.vue")
+        component: () => import("pages/signUp/Register.vue")
+      },
+      {
+        path: "/consent",
+        name: "Consent",
+        component: () => import("pages/signUp/Consent.vue")
       },
       {
         path: "/login",
@@ -22,6 +32,7 @@ const routes = [
       {
         path: "/account",
         name: "Account",
+        icon: "account_box",
         component: () => import("pages/Account.vue"),
         meta: { requiresAuth: true }
       },
@@ -36,29 +47,11 @@ const routes = [
         component: () => import("pages/ResetPassword.vue")
       },
       {
-        name: 'MobileHome',
-        path: '/',
-        icon: 'home',
-        component: () => import('pages/MobileIndex.vue')
-      },
-      {
         name: 'About',
         path: '/about',
         icon: 'help',
-        component: () => import('pages/AboutPage.vue')
+        component: () => import('pages/About.vue')
       },
-      {
-        name: 'Credits',
-        path: '/credits',
-        icon: 'copyright',
-        component: () => import('pages/CreditsPage.vue')
-      },
-      {
-        name: 'Astronomy',
-        path: '/astronomy',
-        icon: 'nights_stay',
-        component: () => import('pages/AstronomyPage.vue')
-      }
     ]
   },
   {
@@ -68,6 +61,7 @@ const routes = [
       {
         path: "",
         name: "AdminHome",
+        icon: 'manage_accounts',
         component: () => import("pages/admin/Index.vue"),
         meta: { requiresAuth: true, requiresAdmin: true }
       }

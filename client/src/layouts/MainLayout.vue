@@ -1,8 +1,10 @@
 <template>
-  <q-layout view="hHh Lpr fFf">
-    <AppHeader />
+  <q-layout view="hHh Lpr fFf"
+    @scroll="updateHeaderColor"
+    >
+    <AppHeader v-if="$route.name !== 'Login' && $route.name !== 'Register' && $route.name !== 'Consent'"/>
     <AppDrawer />
-    <AppFooter />
+    <AppFooter v-if="$route.name !== 'Login' && $route.name !== 'Register' && $route.name !== 'Consent'" />
     <q-page-container class="app-page-container">
       <transition
         appear
@@ -53,7 +55,18 @@ export default {
   mounted () {
     this.$root.$on('onAPILoadingStart', () => { this.isLoading = true })
     this.$root.$on('onAPILoadingEnd', () => { this.isLoading = false })
-  }
+  },
+  methods: {
+    updateHeaderColor (details) {
+      // Only run if the page has set the header transparency
+
+      if (details.position <= 200) {
+        this.transparentHeader = true
+      } else if (details.position > 200) {
+        this.transparentHeader = false
+      }
+    }
+  },
 }
 </script>
 

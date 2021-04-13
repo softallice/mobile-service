@@ -10,7 +10,7 @@ import Vue from "vue";
 // import socketio from '@feathersjs/socketio-client'
 // const socket = io('http://localhost:3030', { transports: ['websocket'] })
 // const restClient = rest("https://172.27.42.206:3030");
-const restClient = rest("https://localhost:3030");
+const restClient = rest("http://localhost:3030");
 
 const feathersClient = feathers()
   .configure(restClient.axios(axiosInstance))
