@@ -29,6 +29,7 @@ export default {
               && route.name !== 'ForgotPassword'
               && route.name !== 'MobileHome' 
               && route.name !== 'ResetPassword' 
+              && route.name !== 'DeviceSetting' 
         )
     }
   }

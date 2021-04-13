@@ -4,10 +4,17 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     children: [
       { 
-        path: "", 
+        path: "/home", 
         icon: 'home', 
         name: "Home", 
-        component: () => import("pages/Index.vue") 
+        component: () => import("pages/service/Main.vue"), 
+        meta: { requiresAuth: true }
+      },
+      {
+        name: 'Dashboard',
+        path: '/dashboard',
+        icon: 'dashboard',
+        component: () => import('pages/service/Dashboard.vue')
       },
       {
         path: "/register",
@@ -39,12 +46,28 @@ const routes = [
       {
         path: "/forgot-password",
         name: "ForgotPassword",
-        component: () => import("pages/ForgotPassword.vue")
+        component: () => import("pages/ForgotPassword.vue"),
+        meta: { requiresAuth: true }
       },
       {
         path: "/reset-password",
         name: "ResetPassword",
-        component: () => import("pages/ResetPassword.vue")
+        component: () => import("pages/ResetPassword.vue"),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: "/setting",
+        name: "Setting",
+        icon: "more_horiz",
+        component: () => import("pages/setting/Setting.vue"),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: "/devicesetting",
+        name: "DeviceSetting",
+        icon: "more_horiz",
+        component: () => import("pages/setting/DeviceSetting.vue"),
+        meta: { requiresAuth: true }
       },
       {
         name: 'About',

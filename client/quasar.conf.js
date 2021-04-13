@@ -26,7 +26,8 @@ module.exports = function (/* ctx */) {
       "auth",
       //"axios",
       "feathersClient",
-      "composition"
+      "composition",
+      "qriously"
     ],
 
     // https://v1.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css

@@ -1,68 +1,65 @@
 <template>
-  <q-header>
+  <q-header
+   :class="transparent.transparent"
+   class="header"
+  >
     <q-toolbar>
       <q-btn
-        flat
-        dense
-        round
-        icon="menu"
-        aria-label="Menu"
-        @click="$root.$emit('ToggleDrawer')"
-      />
-      <q-toolbar-title>
-        <h4 class="q-ma-none">Mobile Service App</h4>
-      </q-toolbar-title>
-    </q-toolbar>
-    <!-- <div class="q-pt-lg q-pb-md">
-      <q-input
-        v-model="location"
-        color="white"
-        label="Search location"
-        debounce="750"
-        dark
-        filled
-        dense
-        class="q-px-md"
-      >
-        <template v-slot:prepend>
-          <q-icon name="place" />
-        </template>
-        <template v-slot:append v-if="!!location">
-          <q-icon
-            name="cancel"
-            @click.stop="clearSearchBar"
-            class="cursor-pointer"
-          />
-        </template>
-      </q-input>
-      <div class="autocomplete q-px-md">
-        <transition name="autocomplete" mode="out-in">
-          <div
-            v-if="showAutocomplete"
-            :class="{ 'zero-results': !suggestedLocations.length }"
-            class="autocomplete-list"
-          >
-            <div v-if="suggestedLocations.length">
-              <p
-                v-for="(location, index) in suggestedLocations"
-                :key="index"
-                class="q-ma-none q-pa-sm q-px-md ellipsis"
-              >
-                <span
-                  @click="onSuggestedLocationClick(location.name)"
-                  class="pointer"
-                >
-                  {{ location.name }}
-                </span>
-              </p>
-            </div>
-            <div v-else>
-              <p class="q-ma-none q-pa-sm q-px-md">Location not found, search another one.</p>
-            </div>
-          </div>
-        </transition>
+          v-if="$store.state.auth.user && $route.matched.some(({ name }) => name === 'Home' || name === 'Dashboard' || name === 'Setting' )"
+          flat
+          dense
+          round
+          icon="menu"
+          aria-label="Menu"
+          @click="$root.$emit('ToggleDrawer')"
+        />
+      <div v-if="$route.matched.some(({ name }) => name === 'Home' || name === 'Dashboard' || name === 'Setting' )">
+        <q-toolbar-title>
+          <h6 class="q-ma-none">Mobile Service</h6>
+        </q-toolbar-title>
       </div>
-    </div> -->
+      <div v-else> 
+          <q-btn flat icon="arrow_back" @click=$router.go(-1) />
+      </div>
+      <q-space/>
+        <div class="q-pa-md q-gutter-sm row items-center no-wrap">
+          <q-btn v-if="$store.state.auth.user" round dense flat color="white" icon="notifications" @click="showNotif">
+            <q-badge color="red" text-color="white" floating>
+              <!-- {{ $store.state.notifications.count.total }} -->
+              1
+            </q-badge>
+            <q-tooltip>Notifications</q-tooltip>
+          </q-btn>
+
+          <q-btn v-if="$store.state.auth.user" round dense flat >
+              <q-avatar size="28px">
+                <img src="https://cdn.quasar.dev/app-icons/icon-128x128.png" />
+                <!-- <img :src="$store.state.auth.avatar ? $store.state.auth.avatar : ''"> -->
+              </q-avatar>
+              <q-tooltip>회원정보</q-tooltip>
+              <q-menu auto-close :offset="[110, 0]">
+              <q-list style="min-width: 150px">
+                <q-item clickable v-close-popup @click="profile">
+                  <q-item-section avatar>
+                    <q-avatar icon="perm_identity" color="primary" text-color="white" />
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label>회원정보</q-item-label>
+                  </q-item-section>
+                </q-item>
+                <q-item clickable v-close-popup @click="logout">
+                  <q-item-section avatar>
+                    <q-avatar icon="logout" color="secondary" text-color="white" />
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label>로그아웃</q-item-label>
+                  </q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+            </q-btn>
+        </div>
+    </q-toolbar>
   </q-header>
 </template>
 
@@ -77,49 +74,34 @@ export default {
     suggestedLocations: [],
     isSuggestedLocationClicked: false
   }),
+  props: {
+    transparent: {
+      type: Object,
+      required: true
+    }
+  },
   methods: {
-    searchLocation (location) {
-      this.isLoadingSuggestedLocations = true
-      const AXIOS_PARAMS = {
-        key: '45129826589045a4a67172834201512',
-        q: location
-      }
-      this.$axios
-        .get('https://api.weatherapi.com/v1/search.json', {
-          params: AXIOS_PARAMS
-        })
-        .then(response => {
-          this.suggestedLocations = response.data.slice(0, 4)
-          this.showAutocomplete = true
-        })
-        .catch(error => {
-          // console.log('Go to location error page')
-        })
-        .finally(() => {
-          this.isLoadingSuggestedLocations = false
-        })
+    logout() {
+      this.$store.dispatch("auth/logout");
+      // window.localStorage.removeItem('pushToken');
     },
-    onSuggestedLocationClick (location) {
-      this.location = location
-      this.showAutocomplete = false
-      this.isSuggestedLocationClicked = true
-      this.$root.$emit('onPlaceSearch', location)
+    profile() {
+      this.$router.push("/account");
     },
-    clearSearchBar () {
-      if (this.location) {
-        this.location = null
-      }
+    showNotif () {
+      this.$q.notify({
+        message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic quisquam non ad sit assumenda consequuntur esse inventore officia. Corrupti reiciendis impedit vel, fugit odit quisquam quae porro exercitationem eveniet quasi.',
+        color: 'primary',
+        multiLine: true,
+        avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+        actions: [
+          { label: 'Reply', color: 'yellow', handler: () => { /* ... */ } }
+        ]
+      })
     }
   },
   watch: {
-    location: function (search) {
-      if (!!(!this.isSuggestedLocationClicked && search && search.length > 3)) {
-        this.searchLocation(search)
-      } else {
-        this.isSuggestedLocationClicked = false
-        this.showAutocomplete = false
-      }
-    }
+    
   }
 }
 </script>
@@ -150,5 +132,9 @@ export default {
   span:hover {
     color: #50afe6;
   }
+}
+
+.header {
+  transition: background-color 1000ms linear;
 }
 </style>

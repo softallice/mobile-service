@@ -46,3 +46,6 @@ feathers generate service
 6. push(웹 push)
 7. subscription(구독)
 8. consent(동의 내용) - markdown 데이터 화면에 표시
+```
+## 쿼리
+https://docs.feathersjs.com/api/databases/querying.html#select

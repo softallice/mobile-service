@@ -6,6 +6,7 @@ import authvuex from "./store.auth";
 import account from "./account";
 import admin from "./admin";
 import theme from './store-theme'
+import messages from '../services/messages/messages'
 
 const requireModule = require.context(
   // The path where the service modules live
@@ -34,7 +35,7 @@ Vue.use(FeathersVuex);
 
 export default function(/* { ssrContext } */) {
   const Store = new Vuex.Store({
-    plugins: [...servicePlugins, authvuex],
+    plugins: [...servicePlugins, authvuex, messages],
     modules: {
       account,
       admin,

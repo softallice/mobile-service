@@ -4,7 +4,7 @@
       <q-form @submit="onSubmit" class="q-gutter-md q-mt-sm">
         <div class="row justify-start items-start">
           <p class="q-ma-sm body-1 col-12">
-            Update your Profile
+            회원 정보 변경
           </p>
 
           <div class="col-12 col-md-6">
@@ -14,7 +14,6 @@
               label="Email"
               label-color="accent"
               dense
-              hint="Email verification will be required to update email."
               class="q-ma-sm"
               disable
             >
@@ -26,18 +25,12 @@
 
           <div class="col-12 col-md-6 text-right">
             <q-btn
-              @click="showUpdateEmail = true"
-              color="primary"
-              dense
-              class="q-ma-sm q-pa-xs"
-              >Update Email</q-btn
-            ><q-btn
               @click="showUpdatePwd = true"
               color="accent"
               dense
               class="q-ma-sm q-pa-xs"
-              >Update Password</q-btn
-            >
+              >패스워드 변경
+              </q-btn>
           </div>
 
           <div class="col-12 col-md-6">
