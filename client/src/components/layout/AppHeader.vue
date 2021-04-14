@@ -18,15 +18,17 @@
           <h6 class="q-ma-none">Mobile Service</h6>
         </q-toolbar-title>
       </div>
-      <div v-else> 
-          <q-btn flat icon="arrow_back" @click=$router.go(-1) />
+      <div v-else>           
+          <q-toolbar-title class="row no-wrap justify-start items-center ">
+            <q-btn flat icon="arrow_back" @click=$router.go(-1) />
+            <h6 class="q-ma-none">{{$route.name}}</h6>
+          </q-toolbar-title>
       </div>
       <q-space/>
         <div class="q-pa-md q-gutter-sm row items-center no-wrap">
           <q-btn v-if="$store.state.auth.user" round dense flat color="white" icon="notifications" @click="showNotif">
             <q-badge color="red" text-color="white" floating>
-              <!-- {{ $store.state.notifications.count.total }} -->
-              1
+              {{ $store.state.notifications.count.total }}
             </q-badge>
             <q-tooltip>Notifications</q-tooltip>
           </q-btn>
@@ -82,11 +84,13 @@ export default {
   },
   methods: {
     logout() {
-      this.$store.dispatch("auth/logout");
+      this.$router.push("/login")
+      this.$store.dispatch("auth/logout")
       // window.localStorage.removeItem('pushToken');
+      
     },
     profile() {
-      this.$router.push("/account");
+      this.$router.push("/account")
     },
     showNotif () {
       this.$q.notify({

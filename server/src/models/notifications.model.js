@@ -11,7 +11,7 @@ module.exports = function (app) {
     body: { type: String },
     image: { type: String },
     icon: { type: String },
-    url: { type: String }
+    url: { type: String },
   }, {
     timestamps: true
   });

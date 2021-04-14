@@ -61,5 +61,10 @@
       }
     }
   },
-  "mongodb": "mongodb://172.27.42.206:27017/api"
+  "mongodb": "mongodb://172.27.42.206:27017/api",
+  "vapid": {
+      "publicKey": "PUSH_PUBLIC",
+      "privateKey": "PUSH_PRIVATE",
+      "subject" : "mailto:s991045@gmail.com"
+  }
 }

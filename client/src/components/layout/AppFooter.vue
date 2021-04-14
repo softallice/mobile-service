@@ -29,7 +29,9 @@ export default {
               && route.name !== 'ForgotPassword'
               && route.name !== 'MobileHome' 
               && route.name !== 'ResetPassword' 
-              && route.name !== 'DeviceSetting' 
+              && route.name !== 'DeviceSetting'
+              && route.name !== 'SendNotification'
+              && route.name !== 'NotificationList' 
         )
     }
   }

@@ -6,15 +6,14 @@ import feathersVuex from "feathers-vuex";
 import axiosInstance from "./axios";
 import Vue from "vue";
 
-// import io from 'socket.io-client'
-// import socketio from '@feathersjs/socketio-client'
-// const socket = io('http://localhost:3030', { transports: ['websocket'] })
-// const restClient = rest("https://172.27.42.206:3030");
-const restClient = rest("http://localhost:3030");
+import io from 'socket.io-client'
+import socketio from '@feathersjs/socketio-client'
+const socket = io('http://localhost:3030', { transports: ['websocket'] })
+// const restClient = rest("http://localhost:3030");
 
 const feathersClient = feathers()
-  .configure(restClient.axios(axiosInstance))
-  // .configure(socketio(socket))
+  // .configure(restClient.axios(axiosInstance))
+  .configure(socketio(socket))
   .configure(auth({ storage: window.localStorage }))
   .hooks({
     before: {
@@ -28,6 +27,10 @@ const feathersClient = feathers()
   });
 
 Vue.prototype.$feathersClient = feathersClient;
+
+// feathersClient.service('notifications')
+//   .on('created', message => console.log('New message created', message));
+
 
 export default feathersClient;
 

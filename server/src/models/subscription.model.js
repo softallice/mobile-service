@@ -12,7 +12,8 @@ module.exports = function (app) {
     keys: { 
       p256dh: {type: String },
       auth: {type: String}
-    }
+    },
+    user_id: { type: Schema.Types.ObjectId, ref: 'users' }
   }, {
     timestamps: true
   });

@@ -53,7 +53,7 @@
       
       <q-separator spaced />
       <q-item-label header>일반</q-item-label>
-      <q-item clickable v-ripple>
+      <q-item clickable v-ripple @click="$router.push('/notification-list')">
         <q-item-section top avatar>
             <q-avatar color="primary" text-color="white" round icon="notifications" />
         </q-item-section> 

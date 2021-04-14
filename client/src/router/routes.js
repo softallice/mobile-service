@@ -70,6 +70,20 @@ const routes = [
         meta: { requiresAuth: true }
       },
       {
+        path: "/sendnotification",
+        name: "SendNotification",
+        icon: "notifications",
+        component: () => import("pages/notification/SendNotification.vue"),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: "/notification-list",
+        name: "NotificationList",
+        icon: "notifications",
+        component: () => import("pages/notification/NotificationList.vue"),
+        meta: { requiresAuth: true }
+      },
+      {
         name: 'About',
         path: '/about',
         icon: 'help',
