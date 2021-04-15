@@ -6,7 +6,12 @@ import authvuex from "./store.auth";
 import account from "./account";
 import admin from "./admin";
 import theme from './store-theme'
+/** 채팅 */
 import messages from '../services/messages/messages'
+/** 저장된 메시지 */
+// import notification from '../services/notifications/notifications'
+/** 푸시 메시지 */
+import notifications from './notifications'
 
 const requireModule = require.context(
   // The path where the service modules live
@@ -39,7 +44,8 @@ export default function(/* { ssrContext } */) {
     modules: {
       account,
       admin,
-      theme
+      theme,
+      notifications
     },
 
     // enable strict mode (adds overhead!)

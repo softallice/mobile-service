@@ -8,7 +8,7 @@
       class="header"
       />
     <AppDrawer />
-    <AppFooter v-if="$route.name !== 'Login' && $route.name !== 'Register' && $route.name !== 'Consent'" />
+    <AppFooter v-if="$route.name !== 'Login' && $route.name !== 'Register' && $route.name !== 'Consent' && $store.state.auth.user" />
     <q-page-container class="app-page-container">
       <transition
         appear
@@ -56,7 +56,7 @@ export default {
   data: () => ({
     isLoading: false,
     transparentHeader: true,
-    transparent: {}
+    transparent: { transparent: ''}
   }),
   mounted () {
     this.$root.$on('onAPILoadingStart', () => { this.isLoading = true })
@@ -65,12 +65,13 @@ export default {
   methods: {
     updateHeaderColor (details) {
       // Only run if the page has set the header transparency
-      // 상단 메뉴 투명도 조절 200px 이상일 경우
-      if (details.position <= 200) {
+      // 상단 메뉴 투명도 조절 40 이상일 경우
+      if (details.position <= 40) {
+        this.transparentHeader = false
+        this.transparency ()
+      } else if (details.position > 40) {
         this.transparentHeader = true
         this.transparency ()
-      } else if (details.position > 200) {
-        this.transparentHeader = false
       }
     },
     transparency () {

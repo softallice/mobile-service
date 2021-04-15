@@ -1,4 +1,3 @@
-
 export function setLoading(state, payload) {
     state.loading = payload
   }
@@ -13,14 +12,24 @@ if (payload === null) {
 }
 
 export function setCount (state, payload) {
-state.count = {
-    notifications: payload.notifications,
-    messages: payload.messages,
-    total: payload.notifications + payload.messages
+    console.log(payload)
+    state.count = {
+        notifications: payload.notifications,
+        messages: payload.messages,
+        total: payload.notifications + payload.messages
+    }
+
+    if (navigator.setAppBadge) {
+        navigator.setAppBadge(state.count.total)
+    }
 }
 
-if (navigator.setAppBadge) {
-    navigator.setAppBadge(state.count.total)
+export function setRead (state, payload) {
+    console.log(payload)
+    if ( payload.readNotification === 'new') {
+        state.newNotification = 'new'
+    } else {
+        state.newNotification = ''
+    }
+    
 }
-}
-  

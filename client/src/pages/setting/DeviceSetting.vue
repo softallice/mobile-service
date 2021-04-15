@@ -25,7 +25,7 @@
           <q-item-label>앱 잠금 설정</q-item-label>
         </q-item-section>
         <q-item-section side >
-          <q-toggle color="blue" v-model="notif1" val="battery" />
+          <q-toggle color="blue" v-model="notif1" val="lock" />
         </q-item-section>
       </q-item>
 
@@ -40,7 +40,7 @@
           <q-item-label caption>지문등 인증</q-item-label>
         </q-item-section>
         <q-item-section side top>
-          <q-toggle color="green" v-model="notif2" val="friend" />
+          <q-toggle color="green" v-model="notif2" val="bio" />
         </q-item-section>
       </q-item>
 
@@ -49,7 +49,7 @@
 
       <q-item-label header>알림</q-item-label>
 
-      <q-item tag="label" v-ripple @click='togglePush'>
+      <q-item tag="label" v-ripple > 
         <q-item-section top avatar>
             <q-avatar color="primary" text-color="white" round icon="notifications" />
         </q-item-section> 
@@ -58,7 +58,22 @@
           <q-item-label caption>앱에서 보내는 알림을 받을수 있습니다.</q-item-label>
         </q-item-section>
         <q-item-section side >
-          <q-toggle color="blue" v-model="isPushEnabled" val="battery" />
+          <q-toggle color="blue" v-model="notifications" val="push" />
+        </q-item-section>
+      </q-item>
+
+      <q-item-label header>배경</q-item-label>
+
+      <q-item tag="label" v-ripple > 
+        <q-item-section top avatar>
+            <q-avatar color="primary" text-color="white" round icon="palette" />
+        </q-item-section> 
+        <q-item-section>
+          <q-item-label>다크테마</q-item-label>
+          <q-item-label caption>배경을 다크로 변경.</q-item-label>
+        </q-item-section>
+        <q-item-section side >
+          <q-toggle color="blue" v-model="palette" val="dark" />
         </q-item-section>
       </q-item>
 
@@ -66,206 +81,47 @@
   </div>
 </template>
 <script>
+
 export default {
   data () {
     return {
-      check1: true,
-      check2: false,
-      check3: false,
 
       notif1: true,
       notif2: true,
-      notif3: false,
-
-      isPushEnabled: false,
-      pushButtonDisabled: true,
-
-      volume: 6,
-      brightness: 3,
-      mic: 8
+      notifications: this.$store.state.notifications.pushToken !== null,
+      palette: false
     }
   },
   mounted () {
-    this.registerServiceWorker()
   },
   watch: {
-    
+    notifications (val) {
+      if (val) {
+        this.$store.dispatch('notifications/enableNotifications').finally(() => this.$store.state.notifications.pushToken !== null)
+      } else {
+        this.$store.dispatch('notifications/disableNotifications').finally(() => this.$store.state.notifications.pushToken !== null)
+      }
+    },
+    palette (val) {
+      if (val) {
+        this.$q.dark.set(true)
+      } else {
+        this.$q.dark.set(false)
+      }
+    }
   },
   methods: {
-    /**
-     * Register the service worker.
-     */
-    registerServiceWorker () {
-      if (!('serviceWorker' in navigator)) {
-        console.log('Service workers aren\'t supported in this browser.')
-        return
-      }
-      navigator.serviceWorker.register('/feathers-messaging-sw.js')
-        .then(() => this.initialiseServiceWorker())
-    },
-    initialiseServiceWorker () {
-      if (!('showNotification' in ServiceWorkerRegistration.prototype)) {
-        console.log('Notifications aren\'t supported.')
-        return
-      }
-      if (Notification.permission === 'denied') {
-        console.log('The user has blocked notifications.')
-        return
-      }
-      if (!('PushManager' in window)) {
-        console.log('Push messaging isn\'t supported.')
-        return
-      }
-      navigator.serviceWorker.ready.then(registration => {
-        registration.pushManager.getSubscription()
-          .then(subscription => {
-            this.pushButtonDisabled = false
-            if (!subscription) {
-              return
-            }
-            this.updateSubscription(subscription)
-            this.isPushEnabled = true
-          })
-          .catch(e => {
-            console.log('Error during getSubscription()', e)
-          })
-      })
-    },
-    /**
-     * Subscribe for push notifications.
-     */
-    subscribe () {
-      console.log('subscribe start')
-      navigator.serviceWorker.ready.then(registration => {
-        const options = { userVisibleOnly: true }
-        const vapidPublicKey = 'BE6re2kLElVUj251p0xVTt3_sWoYCGlwxXx6zVcIFU6cFpflEqzg3AUoZ4EGfOmLFqTD_aUSQy4wVgvG7GccI54' 
-        if (vapidPublicKey) {
-          options.applicationServerKey = this.urlBase64ToUint8Array(vapidPublicKey)
-        }
-        registration.pushManager.subscribe(options)
-          .then(subscription => {
-            this.isPushEnabled = true
-            this.updateSubscription(subscription)
-          })
-          .catch(e => {
-            if (Notification.permission === 'denied') {
-              console.log('Permission for Notifications was denied')
-            } else {
-              console.log('Unable to subscribe to push.', e)
-            }
-          })
-      })
-    },
-    /**
-     * Unsubscribe from push notifications.
-     */
-    unsubscribe () {
-      navigator.serviceWorker.ready.then(registration => {
-        registration.pushManager.getSubscription().then(subscription => {
-          if (!subscription) {
-            this.isPushEnabled = false
-            return
-          }
-          subscription.unsubscribe().then(() => {
-            this.deleteSubscription(subscription)
-            this.isPushEnabled = false
-          }).catch(e => {
-            console.log('Unsubscription error: ', e)
-          })
-        }).catch(e => {
-          console.log('Error thrown while unsubscribing.', e)
-        })
-      })
-    },
-    /**
-     * Toggle push notifications subscription.
-     */
     togglePush () {
-      console.log('togglePush' ) //, this.isPushEnabled)
+      console.log('togglePush' )
 
-      if (this.isPushEnabled) {
+      if (this.notifications) {
         console.log('togglePush false')
-        this.unsubscribe()
+        this.notifications = false
       } else {
         console.log('togglePush true' )
-        this.subscribe()
+        this.notifications = true
       }
     },
-    /**
-     * Send a request to the server to update user's subscription.
-     *
-     * @param {PushSubscription} subscription
-     */
-    updateSubscription (subscription) {
-      const key = subscription.getKey('p256dh')
-      const token = subscription.getKey('auth')
-      const contentEncoding = (PushManager.supportedContentEncodings || ['aesgcm'])[0]
-      const data = {
-        endpoint: subscription.endpoint,
-        expirationTime: subscription.expirationTime,
-        keys: {
-          p256dh: key ? btoa(String.fromCharCode.apply(null, new Uint8Array(key))) : null,
-          auth: token ? btoa(String.fromCharCode.apply(null, new Uint8Array(token))) : null
-        },
-        // publicKey: key ? btoa(String.fromCharCode.apply(null, new Uint8Array(key))) : null,
-        // authToken: token ? btoa(String.fromCharCode.apply(null, new Uint8Array(token))) : null,
-        contentEncoding
-      }
-
-      console.log('data', data)
-
-      this.loading = true
-      this.$feathersClient.service('subscription').create(data)
-      // axios.post('/subscriptions', data)
-        .then(() => { this.loading = false })
-    },
-    /**
-     * Send a requst to the server to delete user's subscription.
-     *
-     * @param {PushSubscription} subscription
-     */
-    async deleteSubscription (subscription) {
-      this.loading = true
-      const resFind = await this.$feathersClient.service('subscription').find({
-        query: {
-          endpoint: subscription.endpoint
-        }
-      })
-
-      await this.$feathersClient.service('subscription').remove(resFind.data[0]._id, {
-        query: {
-          endpoint: subscription.endpoint
-        }
-      })
-      .then(() => { this.loading = false })
-    },
-    /**
-     * Send a request to the server for a push notification.
-     */
-    sendNotification () {
-      this.loading = true
-      axios.post('/notifications')
-        .catch(error => console.log(error))
-        .then(() => { this.loading = false })
-    },
-    /**
-     * https://github.com/Minishlink/physbook/blob/02a0d5d7ca0d5d2cc6d308a3a9b81244c63b3f14/app/Resources/public/js/app.js#L177
-     *
-     * @param  {String} base64String
-     * @return {Uint8Array}
-     */
-    urlBase64ToUint8Array (base64String) {
-      const padding = '='.repeat((4 - base64String.length % 4) % 4)
-      const base64 = (base64String + padding)
-        .replace(/-/g, '+')
-        .replace(/_/g, '/')
-      const rawData = window.atob(base64)
-      const outputArray = new Uint8Array(rawData.length)
-      for (let i = 0; i < rawData.length; ++i) {
-        outputArray[i] = rawData.charCodeAt(i)
-      }
-      return outputArray
-    }
   }
 }
 </script>

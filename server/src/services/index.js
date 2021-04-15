@@ -7,6 +7,7 @@ const notifications = require('./notifications/notifications.service.js');
 const push = require('./push/push.service.js');
 const subscription = require('./subscription/subscription.service.js');
 const consent = require('./consent/consent.service.js');
+const fbpush = require('./fbpush/fbpush.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(users);
@@ -18,4 +19,5 @@ module.exports = function (app) {
   app.configure(push);
   app.configure(subscription);
   app.configure(consent);
+  app.configure(fbpush);
 };

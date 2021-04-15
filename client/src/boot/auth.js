@@ -23,7 +23,7 @@ export default async ({ router, store }) => {
           to.path === "/login" ||
           to.path === "/register"
         ) {
-          next("/account");
+          next("");
         } else if (!LocalStorage.getItem("feathers-jwt") && to.path !== "/") {
           next("/login");
         } else {

@@ -9,6 +9,10 @@ import Vue from "vue";
 import io from 'socket.io-client'
 import socketio from '@feathersjs/socketio-client'
 const socket = io('http://localhost:3030', { transports: ['websocket'] })
+
+// socket.on('notification', (data) => {
+//   store.dispatch('notifications/setNotificationCount', data.count)
+// })
 // const restClient = rest("http://localhost:3030");
 
 const feathersClient = feathers()

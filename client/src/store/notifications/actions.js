@@ -2,33 +2,19 @@
 //https://github.com/Phuks-co/throat-pwa/blob/625955c00a31b3785369c090548ef00b805ba9ea/src/store/modules/notifications.ts
 import firebase from 'firebase/app'
 import 'firebase/messaging'
+import config from '../firebaseConfig'
+import axiosInstance from "../../boot/axios";
+// const firebaseConfig = config.config
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBnU3j-MZkbIAFyOodVhcMzthFbruuDUlI",
-  authDomain: "framework-quasar.firebaseapp.com",
-  projectId: "framework-quasar",
-  storageBucket: "framework-quasar.appspot.com",
-  messagingSenderId: "586541369428",
-  appId: "1:586541369428:web:e37c0836d4833acdb005c1",
-  measurementId: "G-L4YS6V292Q"
-}
+// // console.log(firebaseConfig)
 
-
-firebase.initializeApp(firebaseConfig)
-
-// navigator.serviceWorker.addEventListener('message', event => {
-//   console.log('Push Notification Recieved', event.data) // refresh code goes here  
-// });
-
-
-// return messaging.getToken({ vapidKey: "BCyOnHzMBmyO7eRcYN7BbHMCIAM66PIoc0n6mqipfCfqK9L2-LgpJ5kE3liFWZrQK0Gm_K6WueeicsyNxh4jRCs" })
-// console.log('action------');
+// // firebase.initializeApp(firebaseConfig)
 
 export function getToken () {
   
   const messaging = firebase.messaging()
   // return messaging.getToken({ vapidKey: process.env.FCM_PUBKEY })
-  return messaging.getToken({ vapidKey: "BCyOnHzMBmyO7eRcYN7BbHMCIAM66PIoc0n6mqipfCfqK9L2-LgpJ5kE3liFWZrQK0Gm_K6WueeicsyNxh4jRCs" })
+  return messaging.getToken({ vapidKey: config.fcmPubKey })
     .then((currentToken) => {
       if (!currentToken) {
         return Promise.reject('Could not fetch token')
@@ -50,31 +36,32 @@ export function disableNotifications ({ commit }) {
 }
 
 export function enableNotifications ({ commit, dispatch }) {
-  console.log('enableNotifications commit -------------------')
   commit('setLoading', true)
-  enableNotifications ({ commit, dispatch }) {
-    commit('setLoading', true)
-    return Notification.requestPermission().then((permission) => {
-      if (permission === 'granted') {
-        return dispatch('getToken').then((token) => {
-          axios.post(process.env.API_URI + 'push', { token: token })
-            .then(() => {
-              commit('setToken', token)
-              return Promise.resolve(true)
-            }).finally(() => commit('setLoading', false))
-        }).catch((e) => {
-          console.log(e)
-          commit('setLoading', false)
-          return Promise.reject(e)
-        })
-      } else {
-        console.log('Unable to get permission to notify.')
+  return Notification.requestPermission().then((permission) => {
+    if (permission === 'granted') {
+      return dispatch('getToken').then((token) => {
+        axiosInstance.post('/fbpush', { token: token })
+          .then(() => {
+            commit('setToken', token)
+            return Promise.resolve(true)
+          }).finally(() => commit('setLoading', false))
+      }).catch((e) => {
+        console.log(e)
         commit('setLoading', false)
-        return Promise.reject('Unable to get notification permission')
-      }
-    })
-  },
+        return Promise.reject(e)
+      })
+    } else {
+      console.log('Unable to get permission to notify.')
+      commit('setLoading', false)
+      return Promise.reject('Unable to get notification permission')
+    }
+  })
+}
 
 export function setNotificationCount ({ commit }, payload) {
   commit('setCount', payload)
+}
+
+export function setNotificationRead ({ commit }, payload) {
+  commit('setRead', payload)
 }

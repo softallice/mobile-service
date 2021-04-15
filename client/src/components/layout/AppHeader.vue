@@ -24,11 +24,12 @@
             <h6 class="q-ma-none">{{$route.name}}</h6>
           </q-toolbar-title>
       </div>
+      
       <q-space/>
         <div class="q-pa-md q-gutter-sm row items-center no-wrap">
           <q-btn v-if="$store.state.auth.user" round dense flat color="white" icon="notifications" @click="showNotif">
-            <q-badge color="red" text-color="white" floating>
-              {{ $store.state.notifications.count.total }}
+            <q-badge v-if="$store.state.notifications.newNotification" color="red" text-color="white" floating :label="$store.state.notifications.newNotification" >
+              <!-- {{ $store.state.notifications.newNotification }} -->
             </q-badge>
             <q-tooltip>Notifications</q-tooltip>
           </q-btn>
@@ -59,13 +60,20 @@
                 </q-item>
               </q-list>
             </q-menu>
-            </q-btn>
+          </q-btn>
+          <q-btn v-else dense flat 
+            icon="login"
+            label="로그인"
+            to='/login'>
+             
+          </q-btn>
         </div>
     </q-toolbar>
   </q-header>
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: 'AppHeader',
@@ -74,13 +82,26 @@ export default {
     isLoadingSuggestedLocations: false,
     location: '',
     suggestedLocations: [],
-    isSuggestedLocationClicked: false
+    isSuggestedLocationClicked: false,
+    message: 'asdasdsadasdasd'
   }),
   props: {
     transparent: {
       type: Object,
       required: true
     }
+  },
+  watch: {
+    message: function (data) {
+      const newData = {readNotification : 'new'}
+      this.$store.dispatch('notifications/setNotificationRead', newData)
+    }
+  },
+  /** 알람과 키를 바인딩 할수 있는 리스트를 만들거나 notify 처리 */
+  // computed: mapState(["notification"]),
+  mounted () {
+    this.$feathersClient.service('notifications')
+      .on('created', message => this.message = message);
   },
   methods: {
     logout() {
@@ -93,19 +114,22 @@ export default {
       this.$router.push("/account")
     },
     showNotif () {
-      this.$q.notify({
-        message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic quisquam non ad sit assumenda consequuntur esse inventore officia. Corrupti reiciendis impedit vel, fugit odit quisquam quae porro exercitationem eveniet quasi.',
-        color: 'primary',
-        multiLine: true,
-        avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
-        actions: [
-          { label: 'Reply', color: 'yellow', handler: () => { /* ... */ } }
-        ]
-      })
+      if (this.$store.state.notifications.newNotification === 'new') {
+        this.$q.notify({
+          message: this.message.title,
+          color: 'primary',
+          multiLine: true,
+          avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+          actions: [
+            { label: '열기', color: 'yellow', handler: () => { this.$router.push('/notification-list')} }
+          ]
+        })
+
+        this.$store.dispatch('notifications/setNotificationRead', '')
+      } else {
+        this.$router.push('/notification-list')
+      }
     }
-  },
-  watch: {
-    
   }
 }
 </script>

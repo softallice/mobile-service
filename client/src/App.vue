@@ -32,7 +32,8 @@ export default {
         this.$router.push("/");
       } else {
         if (this.$route.path === "/login") {
-          this.$router.push("/account");
+          // this.$router.push("/account");
+          this.$router.push("/");
         }
       }
     }
@@ -50,10 +51,9 @@ export default {
     return {};
   },
   created () {
-    this.$q.dark.set(true)
+    this.$q.dark.set(false)
   },
   beforeMount () {
-    this.$root.$on('onPlaceSearch', this.onLocationSearch)
   },
   mounted () {
     // this.checkAccessDevicePosition()

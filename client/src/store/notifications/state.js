@@ -8,6 +8,7 @@ export default function() {
     loading: false,
     pushToken: LocalStorage.getItem('pushToken'),
     available: firebase.messaging.isSupported(),
+    newNotification: '',
     count: {
       notifications: 0,
       messages: 0,

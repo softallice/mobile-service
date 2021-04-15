@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md" style="width: 90%">
+  <div class="q-pa-md" >
     <q-list bordered padding class="bg-grey-9">
       <q-item-label header>사용자 정보</q-item-label>
 
@@ -70,7 +70,7 @@
 
         <q-separator spaced inset="item" />
 
-      <q-item clickable v-ripple>
+      <q-item clickable v-ripple @click="dialog = true">
         <q-item-section top avatar>
             <q-avatar color="primary" text-color="white" round icon="ballot" />
         </q-item-section> 
@@ -150,6 +150,34 @@
         </q-item-section>
       </q-item>
     </q-list>
+    <!-- 이용약관 팝업 -->
+    <div class="q-pa-md q-gutter-sm">
+      <q-dialog
+        v-model="dialog"
+        persistent
+        :maximized="maximizedToggle"
+        transition-show="slide-up"
+        transition-hide="slide-down"
+      >
+        <q-card class="text-white">
+          <q-bar>
+            <q-space />
+            <q-btn dense flat icon="close" v-close-popup>
+              <q-tooltip content-class="text-primary">Close</q-tooltip>
+            </q-btn>
+          </q-bar>   
+          <q-card-section class="q-pt-none">
+            <q-markdown :src="markdown" />
+          </q-card-section>
+          <q-bar>
+            <q-space />
+            <q-btn dense flat class="full-width" label="닫기" v-close-popup>
+              <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
+            </q-btn>
+          </q-bar>
+        </q-card>
+      </q-dialog>
+    </div>
   </div>
 </template>
 <script>
@@ -166,8 +194,27 @@ export default {
 
       volume: 6,
       brightness: 3,
-      mic: 8
+      mic: 8,
+      
+      // 이용약관 정보
+      dialog: false,
+      maximizedToggle: true,
+      markdown: null,
     }
+  },
+  mounted () {
+    this.getConsentMd()
+    
+  },
+  methods : {
+      async getConsentMd () {
+        const consentMd = await this.$feathersClient.service('consent').find({
+            query: {
+                version: 'latest'
+            }
+        })
+        this.markdown = consentMd.data[0].text
+      }
   }
 }
 </script>

@@ -13,3 +13,7 @@ export function available(state) {
 export function count(state) {
     return state.count
 }
+
+export function setRead(state) {
+    return state.newNotification
+}
