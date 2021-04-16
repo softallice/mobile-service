@@ -51,7 +51,12 @@ export default {
     return {};
   },
   created () {
-    this.$q.dark.set(false)
+    if (localStorage.getItem('dark')) {
+      this.$q.dark.set(true)
+    } else {
+      this.$q.dark.set(false)
+    }
+    
   },
   beforeMount () {
   },

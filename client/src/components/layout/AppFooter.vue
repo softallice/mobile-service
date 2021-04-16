@@ -32,6 +32,8 @@ export default {
               && route.name !== 'DeviceSetting'
               && route.name !== 'SendNotification'
               && route.name !== 'NotificationList' 
+              && route.name !== 'About' 
+
         )
     }
   }

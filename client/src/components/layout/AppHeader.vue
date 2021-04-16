@@ -20,7 +20,7 @@
       </div>
       <div v-else>           
           <q-toolbar-title class="row no-wrap justify-start items-center ">
-            <q-btn flat icon="arrow_back" @click=$router.go(-1) />
+            <q-btn flat icon="arrow_back" @click="backButton" />
             <h6 class="q-ma-none">{{$route.name}}</h6>
           </q-toolbar-title>
       </div>
@@ -112,6 +112,13 @@ export default {
     },
     profile() {
       this.$router.push("/account")
+    },
+    backButton () {
+      if (this.$route.name === "Reader") {
+        this.$router.go('/dashboard')
+      } else {
+        this.$router.go(-1)
+      }
     },
     showNotif () {
       if (this.$store.state.notifications.newNotification === 'new') {

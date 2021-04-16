@@ -2,7 +2,7 @@
   <div class="q-pa-md" style="width: 100%">
     <q-list class="q-ma-sm q-mt-md">
         <q-expansion-item
-          v-for="(notification, index) in notification_data" :key="index"
+          v-for="(check, index) in check_data" :key="index"
           style="border-radius: 10px"
           popup
           header-class="bg-primary"
@@ -15,14 +15,15 @@
             </q-item-section>
 
             <q-item-section>
-              <q-item-label >{{notification.title}}</q-item-label>
-              <!-- <q-item-label caption>{{notification.date}}</q-item-label> -->
+              <q-item-label >{{check.verifier}}(검증자)</q-item-label>
+              <q-item-label caption>{{check.createdAt}}</q-item-label>
             </q-item-section>
           </template>
 
           <q-separator/>
           <q-card>
-            <q-card-section v-html="notification.body">
+            <q-card-section>
+                {{check.holder}}
             </q-card-section>
           </q-card>
         </q-expansion-item>
@@ -33,36 +34,34 @@
 export default {
   data () {
     return {
-      notification_data: [
+      check_data: [
           {
-              title : 'aaaaa',
-              body: 'bbbb'
-          },
-          {
-              title : 'aaaaa',
-              body: "cccc"
-          },
+              verifier : 'aaaaa',
+              holder: 'bbbb',
+              text: '인증되었습니다.'
+          }
         ],
-        message: {}
+      message: {}
     }
   },
   mounted () {
-    this.getNotification()
-    this.$feathersClient.service('notifications')
+    this.getQrAuth()
+    this.$feathersClient.service('qrauth')
       .on('created', message => this.message = message);
   },
   watch: {
     message: function (data) {
-      this.getNotification()
+      this.getQrAuth()
     }
   },
   methods: {
-    async getNotification () {
+    async getQrAuth () {
     //   const resFind = await this.$feathersClient.service('notifications').find({ query: { $sort: { createdAt: 1 } } })
       try {
         // const resFind = await this.$axiosInstance.get("/notifications?$limit=10&$sort[createdAt]=-1")
-        const resFind = await this.$axiosInstance.get("/notifications?$sort[createdAt]=-1")
-        this.notification_data = resFind.data.data
+        const resFind = await this.$axiosInstance.get("/qrauth?$sort[createdAt]=-1")
+        this.check_data = resFind.data.data
+        // console.log(this.check_data)
       } catch (err) {
           console.log(err)
       }

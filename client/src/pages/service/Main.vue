@@ -137,7 +137,7 @@ export default {
   data () {
     return {
       lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      text: 'https://www.naver.com/',
+      text: 'https://www.daum.net/',
     //   userName: this.$store.state.auth.user.firstname ? this.$store.state.auth.user.firstname : '홍길동'
     }
   },

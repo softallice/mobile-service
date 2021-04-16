@@ -84,6 +84,20 @@ const routes = [
         meta: { requiresAuth: true }
       },
       {
+        path: "/reader",
+        name: "Reader",
+        icon: "qr_code_scanner",
+        component: () => import("pages/passCheck/QrReader.vue"),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: "/qrauthlist",
+        name: "QrAuthList",
+        icon: "list_alt",
+        component: () => import("pages/passCheck/CheckList.vue"),
+        meta: { requiresAuth: true }
+      },
+      {
         name: 'About',
         path: '/about',
         icon: 'help',

@@ -3,12 +3,12 @@
     @scroll="updateHeaderColor"
     >
     <AppHeader 
-      v-if="$route.name !== 'Login' && $route.name !== 'Register' && $route.name !== 'Consent'"
+      v-if="$route.name !== 'Login' && $route.name !== 'Register' && $route.name !== 'Consent' && $route.name !== 'Reader'"
       :transparent="transparent"
       class="header"
       />
     <AppDrawer />
-    <AppFooter v-if="$route.name !== 'Login' && $route.name !== 'Register' && $route.name !== 'Consent' && $store.state.auth.user" />
+    <AppFooter v-if="$route.name !== 'Login' && $route.name !== 'Register' && $route.name !== 'Consent' && $route.name !== 'Reader' && $store.state.auth.user" />
     <q-page-container class="app-page-container">
       <transition
         appear
@@ -26,7 +26,7 @@
       >
         <keep-alive>
           <!-- <router-view v-if="!!(content && !isLoading)" :content="content" /> -->
-          <router-view/>
+          <router-view :key="$route.fullPath"/>
         </keep-alive>
       </transition>
     </q-page-container>

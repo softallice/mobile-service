@@ -105,8 +105,10 @@ export default {
     palette (val) {
       if (val) {
         this.$q.dark.set(true)
+        localStorage.setItem('dark', true)
       } else {
         this.$q.dark.set(false)
+        localStorage.setItem('dark', false)
       }
     }
   },
