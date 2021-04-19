@@ -51,3 +51,6 @@ feathers generate service
 ```
 ## 쿼리
 https://docs.feathersjs.com/api/databases/querying.html#select
+
+## 파일 업로드 참고
+https://github.com/mkalus/self-cleaning-blob-storage-example

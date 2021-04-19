@@ -2,7 +2,7 @@
   <q-layout>
     <q-page-container>
       <q-page class="flex bg-image flex-center">
-        <q-card v-bind:style="$q.screen.lt.sm?{'width': '80%'}:{'width':'30%'}">
+        <q-card v-bind:style="$q.screen.lt.sm?{'width': '80%'}:{'width':'50%'}">
           <q-card-section>
             <div class="col-lg-8" v-if="!registrationComplete">
               <q-form @submit="onSubmit" class="q-gutter-md q-mt-sm">

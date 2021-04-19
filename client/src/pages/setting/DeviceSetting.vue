@@ -89,7 +89,7 @@ export default {
       notif1: true,
       notif2: true,
       notifications: this.$store.state.notifications.pushToken !== null,
-      palette: false
+      palette: localStorage.getItem('dark')
     }
   },
   mounted () {

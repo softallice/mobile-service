@@ -8,11 +8,17 @@ import admin from "./admin";
 import theme from './store-theme'
 /** 채팅 */
 import messages from '../services/messages/messages'
+/** 블로그 */
+import blogentry from '../services/blog-entry/blog-entry'
+/** 파일 업로드 */
+import uploads from '../services/uploads/uploads'
 /** 저장된 메시지 */
 // import notification from '../services/notifications/notifications'
 /** 푸시 메시지 */
 import notifications from './notifications'
 
+
+// 일괄 서비스 등록 .. 추후에
 const requireModule = require.context(
   // The path where the service modules live
   "../services/feathers-client",
@@ -40,7 +46,7 @@ Vue.use(FeathersVuex);
 
 export default function(/* { ssrContext } */) {
   const Store = new Vuex.Store({
-    plugins: [...servicePlugins, authvuex, messages],
+    plugins: [...servicePlugins, authvuex, messages, uploads, blogentry ],
     modules: {
       account,
       admin,

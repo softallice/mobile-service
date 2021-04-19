@@ -9,6 +9,9 @@ const subscription = require('./subscription/subscription.service.js');
 const consent = require('./consent/consent.service.js');
 const fbpush = require('./fbpush/fbpush.service.js');
 const qrauth = require('./qrauth/qrauth.service.js');
+const uploads = require('./uploads/uploads.service.js');
+const fileReference = require('./file-reference/file-reference.service.js');
+const blogEntry = require('./blog-entry/blog-entry.service.js');
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(users);
@@ -22,4 +25,7 @@ module.exports = function (app) {
   app.configure(consent);
   app.configure(fbpush);
   app.configure(qrauth);
+  app.configure(uploads);
+  app.configure(fileReference);
+  app.configure(blogEntry);
 };

@@ -94,7 +94,7 @@
         <q-stepper-navigation>
           <div class="row justify-between">
             <q-btn flat @click="step = 1" color="primary" label="뒤로" class="q-ml-sm" />
-            <q-btn @click="() => { done2 = true }" color="primary" label="완료" to="/" />
+            <q-btn @click="() => { done2 = true }" color="primary" label="완료" to="/register" />
           </div>
         </q-stepper-navigation>
       </q-step>

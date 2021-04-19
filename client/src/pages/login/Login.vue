@@ -3,7 +3,7 @@
   <q-layout>
     <q-page-container>
       <q-page class="flex bg-image flex-center">
-        <q-card v-bind:style="$q.screen.lt.sm?{'width': '80%'}:{'width':'30%'}">
+        <q-card v-bind:style="$q.screen.lt.sm?{'width': '80%'}:{'width':'50%'}">
           <q-card-section>
             <div class="text-center q-pt-lg">
               <div class="col text-h8 ellipsis">
@@ -82,6 +82,15 @@
                     <q-spinner-facebook />
                     </template>
                 </q-btn>
+                <!-- <q-btn
+                    label="회원가입"
+                    color="positive"
+                    to="/register"
+                >
+                    <template v-slot:loading>
+                    <q-spinner-facebook />
+                    </template>
+                </q-btn> -->
                 <q-space />
                 <q-btn
                     :disable="disableSubmit"
@@ -98,8 +107,52 @@
             </q-form>
           </q-card-section>
           <q-card-section>
-            <q-form
-              class="q-gutter-md"
+            <q-list bordered>
+              <q-item clickable v-ripple @click="login('google')">
+                <q-item-section avatar>
+                  <q-avatar rounded size="sm">
+                    <img src="../../assets/images/login/google.png">
+                  </q-avatar>
+                </q-item-section>
+                <q-item-section>Google로 로그인</q-item-section>
+              </q-item>
+              
+              <q-separator />
+
+              <q-item clickable v-ripple @click="login('naver')">
+                <q-item-section avatar>
+                  <q-avatar rounded size="sm">
+                    <img src="../../assets/images/login/naver.png">
+                  </q-avatar>
+                </q-item-section>
+                <q-item-section>Naver로 로그인</q-item-section>
+              </q-item>
+              <q-separator />
+
+              <q-item clickable v-ripple @click="login('kakao')">
+                <q-item-section avatar >
+                  <q-avatar rounded size="sm">
+                    <img src="../../assets/images/login/kakao.png">
+                  </q-avatar>
+                </q-item-section>
+                <q-item-section>Kakao로 로그인</q-item-section>
+              </q-item>
+
+              <q-separator />
+              
+              <q-item clickable v-ripple @click="login('apple')">
+                <q-item-section avatar>
+                  <q-avatar rounded size="sm">
+                    <img src="../../assets/images/login/apple.png">
+                  </q-avatar>
+                </q-item-section>
+                <q-item-section>Apple로 로그인</q-item-section>
+              </q-item>
+
+            </q-list>
+            
+            <!-- <q-form
+              class="q-gutter-md q-gutter-sm"
             >
               <q-btn
                 block
@@ -130,10 +183,13 @@
                 target="_self"
                 >
                 <img src="../../assets/images/login/login.kakao.png">
-                </q-btn>              
-            </q-form>
+                </q-btn>  
+
+                         
+            </q-form> -->
           </q-card-section>
         </q-card>
+        
         
         <!-- <q-btn class="full-width absolute-bottom" label="회원가입" to="/consent" type="button" color="primary"/>             -->
       </q-page>
@@ -199,6 +255,19 @@ export default {
     }
   },
   methods: {
+    login(loginType) {
+      if (loginType === 'google') {
+        window.open(this.apiUrlGoogle, '_self'); 
+      } else if (loginType === 'naver') {
+        window.open(this.apiUrlNaver, '_self');  
+      } else if (loginType === 'kakao') {
+        window.open(this.apiUrlKakao, '_self');  
+      } else if (loginType === 'apple') {
+        ''
+      } else {
+        ''
+      }
+    },
     async googlelogin() {
       // const accessToken = await this.$feathersClient.reAuthenticate()
       // const accessToken = await this.$feathersClient.authentication.getAccessToken()
@@ -253,4 +322,37 @@ a {
   }
   text-decoration: none;
 }
+
+// login_text {
+//   font-size: 1.0em;
+//   display: inline-block;
+//   // font-family: 'Noto Sans KR', sans-serif;
+//   padding: 2px 0 0 38px;
+//   letter-spacing: -0.025rem;
+// }
+
+// login_list {
+//   border: 1px solid #e4e4e4;
+//   margin-bottom: 10px;
+//   padding: 2px 0px 2px 20px;
+//   margin: 8px 25px;
+//   height: 60px;
+// }
+
+// Google{ 
+//   background:url("../../assets/images/login/google.png") no-repeat 8px center; 
+//   background-size:19px
+// }
+// kakao{ 
+//   background:url("../../assets/images/login/kakao.png") no-repeat 8px center; 
+//   background-size:19px
+// }
+// naver{
+//   background:url("../../assets/images/login/naver.png") no-repeat 8px center; 
+//   background-size:19px
+// }
+// apple{
+//   background:url("../../assets/images/login/apple.png") no-repeat 8px center; 
+//   background-size:19px
+// }
 </style>

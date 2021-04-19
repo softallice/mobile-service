@@ -51,7 +51,7 @@ export default {
     return {};
   },
   created () {
-    if (localStorage.getItem('dark')) {
+    if (localStorage.getItem('dark') === true) {
       this.$q.dark.set(true)
     } else {
       this.$q.dark.set(false)

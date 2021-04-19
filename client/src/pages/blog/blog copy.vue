@@ -1,0 +1,83 @@
+<template>
+    <section>
+        <div class="q-pa-md row items-start q-gutter-md">
+            <FeathersVuexFind service="blog-entry" :query="{}" watch="query">
+                <section slot-scope="{ items: blogEntries }">
+                    <q-table :data="blogEntries">
+                        <template slot-scope="props">
+                        <b-table-column field="blogEntry.title" label="Title">
+                            {{ props.row.title }}
+                        </b-table-column>
+                        <b-table-column field="blogEntry.text" label="Text">
+                            {{ props.row.text }}
+                        </b-table-column>
+                        <b-table-column field="blogEntry.text" label="Images">
+                            {{ props.row.images.length }}
+                        </b-table-column>
+                        <b-table-column field="blogEntry.text" label="Attachment">
+                            {{ props.row.attachment ? 'yes' : 'no' }}
+                        </b-table-column>
+                        <b-table-column>
+                            <div class="field has-addons">
+                            <p class="control">
+                                <b-button icon-left="pencil" type="is-info" @click="editBlogEntry(props.row)">Edit</b-button>
+                            </p>
+                            <p class="control">
+                                <b-button icon-left="delete" type="is-danger" @click="deleteBlogEntry(props.row)">Delete</b-button>
+                            </p>
+                            </div>
+                        </b-table-column>
+                        </template>
+                    </q-table>
+                </section>
+            </FeathersVuexFind>
+            <q-btn color="primary" type="is-primary" @click="addNewBlogEntry">Create new Entry</q-btn>
+            <blog-entry-form v-if="currentBlogEntry" v-model="currentBlogEntry" @change="blogEntryChanged" />
+        </div>
+    </section>
+</template>
+
+<script>
+  import BlogEntryForm from "../../components/blog/BlogEntryForm";
+  import {FeathersVuexFind} from 'feathers-vuex';
+
+  export default {
+  components: {BlogEntryForm, FeathersVuexFind},
+  data: () => ({
+    currentBlogEntry: undefined // current entry in form
+  }),
+  methods: {
+    /**
+     * create new blog entry instance
+     */
+    addNewBlogEntry () {
+      const { BlogEntry } = this.$FeathersVuex.api;
+      this.currentBlogEntry = new BlogEntry();
+    },
+    /**
+     * called, when blog entry changes
+     */
+    blogEntryChanged () {
+      // close form
+      this.currentBlogEntry = undefined;
+      this.$buefy.toast.open('Entry saved.');
+    },
+    editBlogEntry (blogEntry) {
+      this.currentBlogEntry = blogEntry;
+    },
+    deleteBlogEntry (blogEntry) {
+      this.$buefy.dialog.confirm({
+        message: 'Really delete ' + blogEntry.title,
+        onConfirm: async () => {
+          try {
+            await blogEntry.remove();
+            this.$buefy.toast.open('Entry deleted.');
+          } catch (e) {
+            this.$buefy.toast.open({ message: 'Deletion failed: ' + e, type: 'is-danger', duration: 5000 });
+          }
+        }
+      });
+    }
+  }
+};
+</script>

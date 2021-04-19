@@ -1510,6 +1510,13 @@
   resolved "https://registry.yarnpkg.com/@quasar/fastclick/-/fastclick-1.1.4.tgz#21ed3e9a4387dcb43022a08af4ef08a5f1abf159"
   integrity sha512-i9wbyV4iT+v4KhtHJynUFhH5LiEPvAEgSnwMqPN4hf/8uRe82nDl5qP5agrp2el1h0HzyBpbvHaW7NB0BPrtvA==
 
+"@quasar/quasar-app-extension-qcalendar@^3.3.4":
+  version "3.3.4"
+  resolved "https://registry.yarnpkg.com/@quasar/quasar-app-extension-qcalendar/-/quasar-app-extension-qcalendar-3.3.4.tgz#3c0e2fe0d29e24edd0d0146216b03dae04620dbd"
+  integrity sha512-d+a6mJn89LZ6LGl0jrJ2/mDGIL3hq3PuwGg38t6eruXY7WLzP2tImHDOTWeStIrUTO1IXbB1CtZp6A+sQ+CBtQ==
+  dependencies:
+    "@quasar/quasar-ui-qcalendar" "^3.3.4"
+
 "@quasar/quasar-app-extension-qmarkdown@^1.4.1":
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/@quasar/quasar-app-extension-qmarkdown/-/quasar-app-extension-qmarkdown-1.4.1.tgz#bb586466345b662d0ee8b752439f427ce6f2ec74"
@@ -1519,6 +1526,11 @@
     front-matter "^4.0.2"
     raw-loader "^4.0.2"
     ware-loader "^0.2.4"
+
+"@quasar/quasar-ui-qcalendar@^3.3.4":
+  version "3.3.5"
+  resolved "https://registry.yarnpkg.com/@quasar/quasar-ui-qcalendar/-/quasar-ui-qcalendar-3.3.5.tgz#4fed965045a98fb5da6294acf1d1285dc9af8dc6"
+  integrity sha512-quNHMyPhxrATJ1pTpTYesLBc44C8vcbguk7ysjN68EKvEP3mn0HrSez28QeMKJqqUp3BZ8qD+TLEFVSmxhtRFA==
 
 "@quasar/quasar-ui-qmarkdown@^1.4.1":
   version "1.4.1"
@@ -3740,6 +3752,16 @@ cyclist@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
   integrity sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk=
+
+date-fns-tz@^1.0.12:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/date-fns-tz/-/date-fns-tz-1.1.4.tgz#38282c2bfab08946a4e9bb89d733451e5525048b"
+  integrity sha512-lQ+FF7xUxxRuRqIY7H/lagnT3PhhSnnvtGHzjE5WZKwRyLU7glJfLys05SZ7zHlEr6RXWiqkmgWq4nCkcElR+g==
+
+date-fns@^2.8.1:
+  version "2.21.1"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.21.1.tgz#679a4ccaa584c0706ea70b3fa92262ac3009d2b0"
+  integrity sha512-m1WR0xGiC6j6jNFAyW4Nvh4WxAi4JF4w9jRJwSI8nBmNcyZXPcP9VUQG+6gHQXAmqaGEKDKhOqAtENDC941UkA==
 
 de-indent@^1.0.2:
   version "1.0.2"
@@ -6497,6 +6519,11 @@ lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
+
+lodash@4.17.20:
+  version "4.17.20"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
+  integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
 
 lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.17.5:
   version "4.17.21"
@@ -9932,6 +9959,16 @@ uuid@^8.3.1:
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
+
+v-calendar@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/v-calendar/-/v-calendar-2.3.0.tgz#5709d2b0028db9d464b7e06c700894735400d564"
+  integrity sha512-OMZJaE45deO5+W5+xueVEHpwhfOGUb2sKjM7w56lCBFaEHQxeYuz3if1zMa65BI3EXU5iKizNVZM6BD8bymWyQ==
+  dependencies:
+    core-js "^3.6.5"
+    date-fns "^2.8.1"
+    date-fns-tz "^1.0.12"
+    lodash "4.17.20"
 
 v8-compile-cache@^2.0.3:
   version "2.3.0"
