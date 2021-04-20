@@ -10,7 +10,7 @@
   "smtp_user": "",
   "smtp_pw": "",
   "from_email": "no-reply@test.com",
-  "client_url": "https://172.27.42.184:8080",
+  "client_url": "http://172.27.42.184:9000",
   "api_url": "http://172.27.42.184:3030",
   "smtp_host": "smtp.naver.com",
   "authentication": {

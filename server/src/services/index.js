@@ -13,6 +13,12 @@ const uploads = require('./uploads/uploads.service.js');
 const fileReference = require('./file-reference/file-reference.service.js');
 const blogEntry = require('./blog-entry/blog-entry.service.js');
 
+const board = require('./board/board.service.js');
+
+const comment = require('./comment/comment.service.js');
+
+const notice = require('./notice/notice.service.js');
+
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(users);
@@ -29,4 +35,7 @@ module.exports = function (app) {
   app.configure(uploads);
   app.configure(fileReference);
   app.configure(blogEntry);
+  app.configure(board);
+  app.configure(comment);
+  app.configure(notice);
 };

@@ -126,7 +126,7 @@ export default {
             reader.onload = () => {
                 // upload file to service
                 this.$store.dispatch('uploads/create', { uri: reader.result }).then((response) => {
-                    console.log(response)
+                    console.log('response',response)
                     this.value.images.push(response.id);
                 }).catch((err) => {
                     console.log(err);

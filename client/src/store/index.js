@@ -56,8 +56,9 @@ export default function(/* { ssrContext } */) {
 
     // enable strict mode (adds overhead!)
     // for dev mode only
-    strict: process.env.DEV
+    // process.env.DEV >> true
+    strict: false
   });
-
+  // console.log('process.env.DEV' , process.env.DEV)
   return Store;
 }

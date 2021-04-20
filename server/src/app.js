@@ -62,6 +62,7 @@ app.use(compress());
 // app.use(express.json());
 
 // important - upload limit!
+// 파일 사이즈 제한
 app.use(express.json({limit: '100mb'}));
 app.use(express.urlencoded({ limit: '100mb', extended: true }));
 
