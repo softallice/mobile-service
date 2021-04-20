@@ -1,7 +1,7 @@
 <template>
   <section class="section">
     <div class="container">
-      <h1 class="title">Manage Your Blog Entries</h1>
+      <h6 class="title">Manage Your Blog Entries</h6>
 
       <FeathersVuexFind service="blog-entry" :query="{}" watch="query">
         <section slot-scope="{ items: blogEntries }">
@@ -54,7 +54,7 @@
 
       <q-btn color="primary"  @click="addNewBlogEntry">Create new Entry</q-btn>
 
-      <blog-entry-form v-if="currentBlogEntry" v-model="currentBlogEntry" @change="blogEntryChanged" />
+      <blog-entry-form v-if="currentBlogEntry" v-model="currentBlogEntry" :value="currentBlogEntry" @change="blogEntryChanged" />
     </div>
   </section>
 </template>
@@ -66,26 +66,30 @@
   export default {
   components: {
     BlogEntryForm, 
-    FeathersVuexFind},
+    FeathersVuexFind
+    },
   data: () => ({
     currentBlogEntry: undefined, // current entry in form
     columns: [
         {
           name: "title",
           required: true,
-          label: "title"
+          label: "title",
         },
         {
           name: "text",
-          label: "text"
+          label: "text",
+          align: "center"
         },
         {
           name: "images",
-          label: "images"
+          label: "images",
+          align: "center"
         },
         {
           name: "attachment",
-          label: "attachment"
+          label: "attachment",
+          align: "center"
         },
         {
           name: "action",
@@ -96,7 +100,7 @@
   }),
   watch: {
     currentBlogEntry: function (data) {
-      console.log(data)
+      console.log('currentBlogEntry' , data)
     }
   },
   methods: {
@@ -119,18 +123,19 @@
       this.currentBlogEntry = blogEntry;
       console.log('this.currentBlogEntry',this.currentBlogEntry)
     },
-    deleteBlogEntry (blogEntry) {
-      this.$buefy.dialog.confirm({
-        message: 'Really delete ' + blogEntry.title,
-        onConfirm: async () => {
+    async deleteBlogEntry (blogEntry) {
+      // this.$buefy.dialog.confirm({
+      //   message: 'Really delete ' + blogEntry.title,
+      //   onConfirm: async () => {
           try {
             await blogEntry.remove();
             // this.$buefy.toast.open('Entry deleted.');
           } catch (e) {
             // this.$buefy.toast.open({ message: 'Deletion failed: ' + e, type: 'is-danger', duration: 5000 });
+            console.log('err')
           }
-        }
-      });
+      //   }
+      // });
     }
   }
 };
