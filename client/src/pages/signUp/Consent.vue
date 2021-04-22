@@ -134,7 +134,8 @@
 </template>
 
 <script>
-// import markdown from "./consent.md"
+import markdown from "./consent.md"
+
 export default {
   name: "Consent",
   data () {
@@ -152,12 +153,16 @@ export default {
   },
   methods : {
       async getConsentMd () {
+        try {
         const consentMd = await this.$feathersClient.service('consent').find({
             query: {
                 version: 'latest'
             }
         })
         this.markdown = consentMd.data[0].text
+        } catch (err) {
+          this.markdown = markdown
+        }
       }
   }
 }

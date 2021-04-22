@@ -11,6 +11,16 @@
                 {{ props.row.title }}
               </q-td>
             </template>
+            <template v-slot:body-cell-type="props">
+              <q-td :props="props">
+                {{ props.row.type }}
+              </q-td>
+            </template>
+            <template v-slot:body-cell-writeDate="props">
+              <q-td :props="props">
+                {{ props.row.writeDate }}
+              </q-td>
+            </template>
             <template v-slot:body-cell-text="props">
               <q-td :props="props">
                 {{ props.row.text }}
@@ -75,6 +85,16 @@
           name: "title",
           required: true,
           label: "title",
+        },
+        {
+          name: "type",
+          label: "type",
+          align: "center"
+        },
+        {
+          name: "writeDate",
+          label: "writeDate",
+          align: "center"
         },
         {
           name: "text",

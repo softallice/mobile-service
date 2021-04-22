@@ -33,7 +33,17 @@ export default {
               && route.name !== 'SendNotification'
               && route.name !== 'NotificationList' 
               && route.name !== 'About' 
-
+              && route.name !== 'Dashboard' 
+              && route.name !== 'Reader' 
+              && route.name !== 'QrAuthList' 
+              && route.name !== 'Calendar' 
+              && route.name !== 'blog' 
+              && route.name !== 'UserDietInfo' 
+              && route.name !== 'Blog' 
+              && route.name !== 'WriteMeal' 
+              && route.name !== 'ExerciseHistory' 
+              && route.name !== 'MealHistory' 
+              && route.name !== 'WeightHistory' 
         )
     }
   }

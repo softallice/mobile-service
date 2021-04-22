@@ -75,7 +75,7 @@
                 <q-space />
                 <q-btn
                     label="회원가입"
-                    color="positive"
+                    color="primary"
                     to="/consent"
                 >
                     <template v-slot:loading>
@@ -97,7 +97,7 @@
                     :loading="submitting"
                     label="로그인"
                     type="submit"
-                    color="positive"
+                    color="primary"
                 >
                     <template v-slot:loading>
                     <q-spinner-facebook />

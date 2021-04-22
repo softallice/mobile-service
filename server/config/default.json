@@ -10,8 +10,8 @@
   "smtp_user": "",
   "smtp_pw": "",
   "from_email": "no-reply@test.com",
-  "client_url": "http://172.27.42.184:9000",
-  "api_url": "http://172.27.42.184:3030",
+  "client_url": "https://localhost:8080",
+  "api_url": "http://localhost:3030",
   "smtp_host": "smtp.naver.com",
   "authentication": {
     "entity": "user",
@@ -61,7 +61,7 @@
       }
     }
   },
-  "mongodb": "mongodb://172.27.42.206:27017/api",
+  "mongodb": "mongodb://localhost:27017/api",
   "vapid": {
       "publicKey": "PUSH_PUBLIC",
       "privateKey": "PUSH_PRIVATE",

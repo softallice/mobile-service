@@ -16,7 +16,7 @@
                       v-model="$v.formData.firstname.$model"
                       label="이름"
                       label-color="accent"
-                      hint="Given Name"
+                      hint="이름"
                       lazy-rules
                       dense
                       class="q-ma-sm"
@@ -32,7 +32,7 @@
                           필수 항목입니다.
                         </div>
                         <div v-if="!$v.formData.firstname.minLength">
-                          두글자 이상 필요합니다.(제한 요소 변경)
+                          한글자 이상 입력해 주세요
                         </div>
                       </template>
                     </q-input>
@@ -60,7 +60,7 @@
                           필수 항목입니다.
                         </div>
                         <div v-if="!$v.formData.lastname.minLength">
-                          두글자 이상 필요합니다.(제한 요소 변경)
+                          한글자 이상 입력해 주세요
                         </div>
                       </template>
                     </q-input>
@@ -228,11 +228,11 @@ export default {
     formData: {
       firstname: {
         required,
-        minLength: minLength(2)
+        minLength: minLength(1)
       },
       lastname: {
         required,
-        minLength: minLength(2)
+        minLength: minLength(1)
       },
       email: {
         required,

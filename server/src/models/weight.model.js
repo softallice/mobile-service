@@ -1,25 +1,17 @@
-// BlogEntry-model.js - A mongoose model
-//
+// weight-model.js - A mongoose model
+// 
 // See http://mongoosejs.com/docs/models.html
 // for more of what you can do here.
 module.exports = function (app) {
-  const modelName = 'blogEntry';
+  const modelName = 'weight';
   const mongooseClient = app.get('mongooseClient');
   const { Schema } = mongooseClient;
   const schema = new Schema({
-    title: { type: String, required: true },
-    type: { type: String },
-    writeDate: { type: String },
-    text: { type: String },
-    images: [{ type: String }], // references to blobs
-    attachment: { type: String } // reference to blob
+    writeDate: { type: String, required: true },
+    weight: {type: Number, default: 0}
   }, {
-    timestamps: true,
-    versionKey: false
+    timestamps: true
   });
-
-  // create an index to find last changed entries more easily
-  schema.index({ updatedAt: -1 });
 
   // This is necessary to avoid model compilation errors in watch mode
   // see https://mongoosejs.com/docs/api/connection.html#connection_Connection-deleteModel
@@ -27,4 +19,5 @@ module.exports = function (app) {
     mongooseClient.deleteModel(modelName);
   }
   return mongooseClient.model(modelName, schema);
+  
 };

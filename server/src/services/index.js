@@ -19,6 +19,12 @@ const comment = require('./comment/comment.service.js');
 
 const notice = require('./notice/notice.service.js');
 
+const meal = require('./meal/meal.service.js');
+
+const exercise = require('./exercise/exercise.service.js');
+
+const weight = require('./weight/weight.service.js');
+
 // eslint-disable-next-line no-unused-vars
 module.exports = function (app) {
   app.configure(users);
@@ -38,4 +44,7 @@ module.exports = function (app) {
   app.configure(board);
   app.configure(comment);
   app.configure(notice);
+  app.configure(meal);
+  app.configure(exercise);
+  app.configure(weight);
 };

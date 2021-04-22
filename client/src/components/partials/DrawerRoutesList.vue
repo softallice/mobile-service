@@ -43,6 +43,16 @@ export default {
               && route.name !== 'MobileHome' 
               && route.name !== 'ResetPassword' 
               && route.name !== 'DeviceSetting' 
+              && route.name !== 'Dashboard' 
+              && route.name !== 'Reader'
+              && route.name !== 'QrAuthList' 
+              && route.name !== 'Blog' 
+              && route.name !== 'MealHistory' 
+              && route.name !== 'WriteMeal' 
+              && route.name !== 'ExerciseHistory' 
+              && route.name !== 'About' 
+              && route.name !== 'Calendar' 
+              && route.name !== 'WeightHistory' 
       )
     }
   }

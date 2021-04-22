@@ -7,8 +7,14 @@ const routes = [
         path: "", 
         icon: 'home', 
         name: "Home", 
-        component: () => import("pages/service/Main.vue"), 
+        component: () => import("pages/service/Calendar.vue"),
       },
+      // { 
+      //   path: "", 
+      //   icon: 'home', 
+      //   name: "Home", 
+      //   component: () => import("pages/service/Main.vue"), 
+      // },
       {
         name: 'Dashboard',
         path: '/dashboard',
@@ -56,20 +62,6 @@ const routes = [
         meta: { requiresAuth: true }
       },
       {
-        path: "/setting",
-        name: "Setting",
-        icon: "more_horiz",
-        component: () => import("pages/setting/Setting.vue"),
-        meta: { requiresAuth: true }
-      },
-      {
-        path: "/devicesetting",
-        name: "DeviceSetting",
-        icon: "more_horiz",
-        component: () => import("pages/setting/DeviceSetting.vue"),
-        meta: { requiresAuth: true }
-      },
-      {
         path: "/sendnotification",
         name: "SendNotification",
         icon: "notifications",
@@ -109,6 +101,56 @@ const routes = [
         name: "Blog",
         icon: "source",
         component: () => import("pages/blog/Blog.vue"),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: "/user-diet-info",
+        name: "UserDietInfo",
+        icon: "source",
+        component: () => import("pages/dietInfo/UserDietInfo.vue"),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: "/meal-history",
+        name: "MealHistory",
+        icon: "restaurant",
+        component: () => import("pages/meal/MealHistory.vue"),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: "/write-meal",
+        name: "WriteMeal",
+        icon: "history",
+        component: () => import("pages/meal/WriteMeal.vue"),
+        props: true,
+        meta: { requiresAuth: true }
+      },
+      {
+        path: "/exercise-history",
+        name: "ExerciseHistory", 
+        icon: "directions_run",
+        component: () => import("pages/exercise/ExerciseHistory.vue"),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: "/weight-history",
+        name: "WeightHistory", 
+        icon: "directions_run",
+        component: () => import("pages/weight/WeightHistory.vue"),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: "/setting",
+        name: "Setting",
+        icon: "more_horiz",
+        component: () => import("pages/setting/Setting.vue"),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: "/devicesetting",
+        name: "DeviceSetting",
+        icon: "more_horiz",
+        component: () => import("pages/setting/DeviceSetting.vue"),
         meta: { requiresAuth: true }
       },
       {

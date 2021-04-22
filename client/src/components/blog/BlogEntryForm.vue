@@ -8,14 +8,26 @@
       <q-input
         filled
         v-model="value.title"
-        label="Title"
+        label="제목"
+        required
+      />
+      <q-input
+        filled
+        v-model="value.type"
+        label="식사유형"
+        required
+      />
+      <q-input
+        filled
+        v-model="value.writeDate"
+        label="등록일자"
         required
       />
       <q-input
         filled
         type="textarea"
         v-model="value.text"
-        label="Text"
+        label="메모"
         required
       />
 
@@ -164,8 +176,8 @@ export default {
          * delete image by index
          */
         deleteImage (idx) {
-            // this.value.images.splice(idx, 1);
-            // this.$emit('change', this.value);
+            this.value.images.splice(idx, 1);
+            this.$emit('change', this.value);
         }
     }
 };

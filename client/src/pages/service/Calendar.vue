@@ -1,42 +1,192 @@
 <template>
-  <div style="max-width: 800px; width: 100%;">
-      <q-toolbar class="text-white row justify-between items-center">
-        <q-btn color="white" flat label="Prev" @click="onPrev" />
-      
-      <div class="col-4" style="text-align: center;">
-      {{ title }}
-      </div>
+  <q-page>  
+    <!-- 메인 달력  -->
+    <div style="max-width: 800px; width: 100%;">
+        <q-toolbar class="row justify-between items-center">
+          <q-btn color="primary" flat icon="arrow_back_ios"  @click="onPrev" />
+        
+        <div class="col-4" style="text-align: center;">
+        {{ title }}
+        </div>
 
-        <q-btn color="white" flat label="Next" @click="onNext" />
-    </q-toolbar>
+          <q-btn color="primary" flat icon="arrow_forward_ios" @click="onNext" />
+      </q-toolbar>
 
-    <q-calendar
-      ref="calendar"
-      v-model="selectedDate"
-      view="month"
-      locale="ko-kr"
-      short-weekday-label
-      :day-height="70"
-      @change="onChange"
-    >
-      <template #day="{ timestamp }">
-        <template v-for="(event, index) in getEvents(timestamp.date)">
-          <q-badge
-            :key="index"
-            style="width: 100%; cursor: pointer; height: 16px; max-height: 16px"
-            :class="badgeClasses(event, 'day')"
-            :style="badgeStyles(event, 'day')"
-          >
-            <q-icon v-if="event.icon" :name="event.icon" class="q-mr-xs"></q-icon><span class="ellipsis">{{ event.title }}</span>
-          </q-badge>
+      <q-calendar
+        ref="calendar"
+        v-model="selectedDate"
+        view="month"
+        locale="ko-kr"
+        short-weekday-label
+        :day-height="90"
+        @change="onChange"
+      >
+        <template #day="{ timestamp }">
+          <template v-for="(event, index) in getEvents(timestamp.date)">
+            <q-badge
+              :key="index"
+              style="width: 100%; cursor: pointer; height: 16px; max-height: 16px"
+              :class="badgeClasses(event, 'day')"
+              :style="badgeStyles(event, 'day')"
+            >
+              <q-icon v-if="event.icon" :name="event.icon" class="q-mr-xs"></q-icon><span class="ellipsis">{{ event.title }}</span>
+            </q-badge>
+          </template>
         </template>
-      </template>
-    </q-calendar>
-  </div>
+      </q-calendar>
+    </div>
+    <q-separator size="8px" style="max-width: 800px; width: 100%;"/>
+    <!-- 체중 카드리스트  -->
+    <q-card style="max-width: 800px; width: 100%;"  @click="$router.push('/weight-history')">
+      <div class="q-pa-md text-weight-bold">{{selectedDate ? selectedDate : today }}</div>
+        <q-card-section horizontal class="col-2 flex flex-center">
+          <h4> {{weight_data.weight}} kg</h4>
+          <q-card-actions vertical>
+            <div class="text-grey">목표체중까지 4Kg 남았습니다.</div>
+          </q-card-actions>
+        </q-card-section>
+    </q-card>
+
+    <q-separator size="8px" style="max-width: 800px; width: 100%;"/>
+    <!-- BMI 카드리스트  -->
+    <q-card style="max-width: 800px; width: 100%;"  @click="$router.push('')">
+      <div class="q-pa-md text-weight-bold">BMI( {{bmi}} )</div>
+      
+        <!-- <q-card-section > -->
+          <q-card-section horizontal class="col flex flex-center">
+            <q-img
+              class="rounded-border"
+              
+              src="../../assets/images/diet/bmi.png"
+            >
+            <q-icon class="absolute all-pointer-events" size="30px" name="person_pin_circle" color="pink" :style="'top: 10px; left:' + bmiPosion + '%'"/>
+            </q-img>
+        </q-card-section>
+    </q-card>
+    
+    <q-separator size="8px" style="max-width: 800px; width: 100%;"/>
+
+    <!-- 일별 식사/운동/ 다짐 -->
+    <div  style="max-width: 800px">
+      <q-list bordered padding>
+        <q-item-label header class="text-weight-bold">식사/운동/다짐</q-item-label>
+
+        <q-item clickable v-ripple @click="$router.push('/meal-history')">
+          <q-item-section top avatar>
+            <q-avatar color="primary" text-color="white" icon="restaurant" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>식사</q-item-label>
+            <q-item-label caption lines="2">{{ mealhistory_data.eatType }} 하셨습니다.</q-item-label>
+          </q-item-section>
+
+          <q-item-section side top>
+           
+            <q-icon name="arrow_forward_ios" color="primary" />
+          </q-item-section>
+        </q-item>
+
+        <q-separator spaced />
+
+        <q-item clickable v-ripple @click="$router.push('/exercise-history')">
+          <q-item-section top avatar>
+            <q-avatar color="primary" text-color="white" icon="directions_bike" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>운동</q-item-label>
+            <q-item-label caption lines="2">{{exercise_time}} 시간 하셨습니다.</q-item-label>
+          </q-item-section>
+
+          <q-item-section side top>
+           
+            <q-icon name="arrow_forward_ios" color="primary" />
+          </q-item-section>
+        </q-item>
+
+        <q-separator spaced />
+
+        <q-item>
+          <q-item-section top avatar>
+            <q-avatar color="primary" text-color="white" icon="local_cafe" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>다짐</q-item-label>
+            <q-item-label caption lines="2">1일 두시간</q-item-label>
+          </q-item-section>
+
+          <q-item-section side top>
+           
+            <q-icon name="arrow_forward_ios" color="primary" />
+          </q-item-section>
+        </q-item>
+
+        
+      </q-list>
+    </div>
+
+    <!-- 다이어트 체중 입력 다이얼로그 -->
+    <q-dialog v-model="promptWeight" persistent>
+      <q-card style="min-width: 350px">
+        <q-card-section>
+          <div class="text-h6">체중 입력</div>
+          <q-input 
+            filled 
+            v-model="weightdate" 
+            label="측정일자"
+            input-class="text-center">
+            <template v-slot:append>
+              <q-btn icon="event" round color="primary">
+                <q-popup-proxy @before-show="updateProxy" transition-show="scale" transition-hide="scale">
+                  <q-date v-model="proxyWeightdate">
+                    <div class="row items-center justify-end q-gutter-sm">
+                      <q-btn label="취소" color="primary" flat v-close-popup />
+                      <q-btn label="선택" color="primary" flat @click="selectDate" v-close-popup />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-btn>
+            </template>
+          </q-input>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <q-input 
+                filled 
+                bottom-slots 
+                v-model="bodyWeight" 
+                label="무게" 
+                type="number"
+                counter 
+                maxlength="3"
+                input-class="text-center">
+                <template v-slot:prepend>
+                  <q-btn round dense flat icon="remove" @click="weightMinus"  />
+                </template>
+                <template v-slot:append>
+                  <q-btn round dense flat icon="add" @click="weightAdd" />
+                </template>
+              </q-input>
+        </q-card-section>
+
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="취소" v-close-popup />
+          <q-btn flat label="저장" v-close-popup @click="saveUserInfo" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+    <!-- 스티키 버튼 -->
+    <!-- <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-btn fab icon="monitor_weight" color="accent" @click="promptWeight = true" />
+    </q-page-sticky> -->
+  </q-page>
 </template>
 <script>
 // normally you would not import "all" of QCalendar, but is needed for this example to work with UMD (codepen)
 import QCalendar from '@quasar/quasar-ui-qcalendar' // ui is aliased from '@quasar/quasar-ui-qcalendar'
+import { date } from 'quasar'
 
 const CURRENT_DAY = new Date()
 
@@ -109,7 +259,8 @@ function luminosity (color) {
 export default {
   data () {
     return {
-      selectedDate: '', // getCurrentDay(CURRENT_DAY.getDate()),
+      // 달력
+      selectedDate: getCurrentDay(CURRENT_DAY.getDate()),
       today: getCurrentDay(CURRENT_DAY.getDate()),
       title: '',
       shortWeekdayLabel: false,
@@ -118,99 +269,91 @@ export default {
       start: undefined,
       events: [
         {
-          title: '1st of the Month',
-          details: 'Everything is funny as long as it is happening to someone else',
-          date: getCurrentDay(1),
-          bgcolor: 'orange'
+          title: '체중',
+          // details: '51 kg',
+          date: getCurrentDay(22),
+          bgcolor: 'orange',
+          icon: 'fact_check'
         },
         {
-          title: 'Sisters Birthday',
-          details: 'Buy a nice present',
-          date: getCurrentDay(4),
+          title: '식사',
+          // details: '몇끼 식사',
+          date: getCurrentDay(22),
+          bgcolor: 'blue',
+          icon: 'restaurant'
+        },
+        {
+          title: '운동',
+          // details: '몇번 운동',
+          date: getCurrentDay(22),
           bgcolor: 'green',
-          icon: 'fas fa-birthday-cake'
+          icon: 'directions_bike'
         }
       ],
-      theme: {
-          '--calendar-border': '#4db6ac 1px solid',
-          '--calendar-border-dark': '#e0f2f1 1px solid',
-          '--calendar-border-section': '#80cbc4 1px dashed',
-          '--calendar-border-section-dark': '#80cbc4 1px dashed',
-          '--calendar-border-current': '#4db6ac 2px solid',
-          '--calendar-border-current-dark': '#1de9b6 2px solid',
-          '--calendar-border-droppable': '#027BE3 1px dashed',
-          '--calendar-border-droppable-dark': '#ffff66 1px dashed',
-          '--calendar-mini-range-connector-hover-border': '#027BE3 1px dashed',
-          '--calendar-mini-range-connector-hover-border-dark': '#ffff66 1px dashed',
-          '--calendar-color': '#004d40',
-          '--calendar-color-dark': '#e0f2f1',
-          '--calendar-background': '#e0f2f1',
-          '--calendar-background-dark': '#004d40',
-          '--calendar-current-color': '#027BE3',
-          '--calendar-current-color-dark': '#ffff66',
-          '--calendar-current-background': '#00000000',
-          '--calendar-current-background-dark': '#004d40',
-          '--calendar-disabled-date-color': '#e0f2f1',
-          '--calendar-disabled-date-color-dark': '#bebebe',
-          '--calendar-disabled-date-background': '#80cbc4',
-          '--calendar-disabled-date-background-dark': '#121212',
-          '--calendar-active-date-color': '#000000',
-          '--calendar-active-date-color-dark': '#ffff66',
-          '--calendar-active-date-background': '#1de9b6',
-          '--calendar-active-date-background-dark': '#4db6ac',
-          '--calendar-outside-color': '#004d40',
-          '--calendar-outside-color-dark': '#bebebe',
-          '--calendar-outside-background': '#00000000',
-          '--calendar-outside-background-dark': '#121212',
-          '--calendar-selected-color': '#027BE3',
-          '--calendar-selected-color-dark': '#027BE3',
-          '--calendar-selected-background': '#cce7ff',
-          '--calendar-selected-background-dark': '#cce7ff',
-          '--calendar-mini-selected-color': 'unset',
-          '--calendar-mini-selected-color-dark': '#027BE3',
-          '--calendar-mini-selected-background': 'unset',
-          '--calendar-mini-selected-background-dark': '#cce7ff',
-          '--calendar-mini-selected-label-color': '#027BE3',
-          '--calendar-mini-selected-label-color-dark': '#cce7ff',
-          '--calendar-mini-selected-label-background': '#cce7ff',
-          '--calendar-mini-selected-label-background-dark': '#027BE3',
-          '--calendar-range-color': '#027BE3',
-          '--calendar-range-color-dark': '#027BE3',
-          '--calendar-range-background': '#cce7ff',
-          '--calendar-range-background-dark': '#cce7ff',
-          '--calendar-mini-range-color': '#cce7ff',
-          '--calendar-mini-range-color-dark': '#027BE3',
-          '--calendar-mini-range-background': 'unset',
-          '--calendar-mini-range-background-dark': 'unset',
-          '--calendar-mini-range-label-color': '#cce7ff',
-          '--calendar-mini-range-label-color-dark': '#027BE3',
-          '--calendar-mini-range-label-background': '#cce7ff',
-          '--calendar-mini-range-label-background-dark': '#cce7ff',
-          '--calendar-mini-range-connector-color': '#cce7ff',
-          '--calendar-mini-range-connector-color-dark': '#ffff66',
-          '--calendar-mini-range-hover-color': '#027BE3',
-          '--calendar-mini-range-hover-color-dark': '#ffff66',
-          '--calendar-mini-range-firstlast-color': '#cce7ff',
-          '--calendar-mini-range-firstlast-color-dark': '#cce7ff',
-          '--calendar-mini-range-firstlast-background': 'unset',
-          '--calendar-mini-range-firstlast-background-dark': '#cce7ff',
-          '--calendar-mini-range-firstlast-label-color': '#cce7ff',
-          '--calendar-mini-range-firstlast-label-color-dark': '#cce7ff',
-          '--calendar-mini-range-firstlast-label-background': '#027BE3',
-          '--calendar-mini-range-firstlast-label-background-dark': '#ffff66',
-          '--calendar-intervals-width': '56px',
-          '--calendar-work-week-width': '30px',
-          '--calendar-mini-work-week-width': '30px',
-          '--calendar-work-week-font-size': '1.0em',
-          '--calendar-head-font-weight': '600'
-      }
+      //bmi 포지션
+      bmiPosion: 0,
+      bmi: 0 ,
+      //체중 다이얼로그
+      weightdate: date.formatDate(new Date(), 'YYYY/MM/DD'),
+      proxyWeightdate: date.formatDate(new Date(), 'YYYY/MM/DD') ,
+      promptWeight: false,
+      bodyWeight: 50,
+      //식사 조회
+      mealhistory_data: {},
+      exercise_data: {
+        writeDate: '',
+        walking: 0,
+        running: 0,
+        gym:0,
+        bike:0,
+        riding:0,
+        hiking:0,
+        yoga:0,
+        etc:0
+      },
+      exercise_time: 0,        
+      weight_data: {
+        writeDate: '',
+        weight: 0
+      },
+      messageMeal: {},
+      messageWeight: {},
+      messageExercise: {},
     }
   },
   beforeMount () {
     this.updateFormatter()
   },
   watch: {
+    messageExercise: function (data) {
+      this.getExerciseHistory()
+    },
+    messageWeight: function (data) {
+      this.getWeightHistory()
+    },
+    messageMeal: function (data) {
+      this.getMealHistory()
+    },
+    selectedDate: function (data) {
+      this.getExerciseHistory()
+      this.getMealHistory()
+      this.getWeightHistory()
+    },
     
+  },
+  mounted () {
+    // 운동 정보
+    this.getExerciseHistory()
+    this.$feathersClient.service('exercise')
+      .on('patch', messageExercise => this.messageExercise = messageExercise);
+    // 식사 정보
+    this.getMealHistory()
+    this.$feathersClient.service('meal')
+      .on('patch', messageMeal => this.messageMeal = messageMeal);
+    // 체중 정보      
+    this.getWeightHistory()
+    this.$feathersClient.service('weight')
+      .on('patch', messageWeight => this.messageWeight = messageWeight);
   },
   methods: {
     isCssColor (color) {
@@ -320,7 +463,128 @@ export default {
         // console.error('Intl.DateTimeFormat not supported')
         this.dateFormatter = undefined
       }
-    }
+    },
+    // 체중 다이얼로그
+    //일자 선택
+    updateProxy () {
+      this.proxyWeightdate = this.weightdate
+    },
+    selectDate () {
+      this.weightdate = this.proxyWeightdate
+    },
+    // 체중 선택
+    weightAdd () {
+      this.bodyWeight = this.bodyWeight + 1
+    },
+
+    weightMinus () {
+      this.bodyWeight = this.bodyWeight - 1
+    },
+    //체중 저장
+    async saveUserInfo  () {
+    },
+    calBmi () {
+      // bmi = 무게 / (키/100 * 키/100)
+      const height = 160 / 100
+      let bmi = this.weight_data.weight / (height * height)
+      console.log(' this.weight_data',  this.weight_data.weight)
+      this.bmi = Math.round(bmi * 100) /100
+    },
+    // 
+    calBmiMarker (data) {
+      let posion
+      if (data < 18.5) {
+        posion = (23.5 * data) / 18.5
+      } else if ( data >= 18.5 && data < 23 ) {
+        posion = (42 * data) / 23
+      } else if ( data >= 23 && data < 25 ) {
+        posion = (60 * data) / 25
+      } else if ( data >= 25 && data < 30 ) {
+        posion = ( 77 * data) / 30
+      } else {
+        posion = (100 * data) / 40
+      }
+      // console.log('data', data)
+      // console.log('posion', posion)
+      this.bmiPosion = posion
+    },
+    // 체중 조회
+    async getWeightHistory () {
+        try {
+        const resFind = await this.$feathersClient.service('weight').find({
+            query: {
+                writeDate: this.selectedDate,
+                $sort: { sort: 1 } 
+            }
+        })
+        if (resFind.total > 0 ) {
+            this.weight_data = resFind.data[0]
+            this.calBmi()
+            this.calBmiMarker(this.bmi)
+            // this.calBmiMarker(18.4)
+        } else {
+            this.weight_data = {
+            writeDate: '',
+            weight: 50
+            }
+        }
+        
+        } catch (err) {
+            console.log(err)
+        }
+    },
+    // 운동 조회
+    async getExerciseHistory () {
+        try {
+        const resFind = await this.$feathersClient.service('exercise').find({
+            query: {
+                writeDate: this.selectedDate
+            }
+        })
+        if (resFind.total > 0 ) {
+          console.log('resFind.data[0]', resFind.data[0])
+            this.exercise_data = resFind.data[0]
+            this.exercise_time = resFind.data[0].running + 
+                            resFind.data[0].walking +  
+                            resFind.data[0].gym + 
+                            resFind.data[0].bike + 
+                            resFind.data[0].riding + 
+                            resFind.data[0].hiking + 
+                            resFind.data[0].yoga + 
+                            resFind.data[0].etc
+        } else {
+            this.exercise_data = {
+            writeDate: '',
+            walking: 0,
+            running: 0,
+            gym:0,
+            bike:0,
+            riding:0,
+            hiking:0,
+            yoga:0,
+            etc:0
+            }
+        }
+        
+        } catch (err) {
+            console.log(err)
+        }
+    },
+    async getMealHistory () {
+        try {
+          const resFind = await this.$feathersClient.service('meal').find({
+              query: {
+                  writeDate: this.selectedDate,
+                  $sort: { sort: -1 } ,
+                  $limit: 1
+              }
+          })
+          this.mealhistory_data = resFind.data[0]
+          console.log('this.mealhistory_data', this.mealhistory_data)
+        } catch (err) {
+            console.log(err)
+        }
+    }  
   }  
 }
 </script>
